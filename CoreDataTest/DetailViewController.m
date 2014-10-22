@@ -68,9 +68,7 @@
         abort();
     }
 
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

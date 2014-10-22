@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+
+@class ListElement;
+
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) ListElement *detailItem;
 
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UITextField *detailGroupTypeField;
+@property (weak, nonatomic) IBOutlet UITextField *detailDescriptionField;
+
 @end

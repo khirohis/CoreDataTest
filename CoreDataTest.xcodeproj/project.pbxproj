@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A160C3919F749660030201A /* ListElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A160C3819F749660030201A /* ListElement.m */; };
 		8A9E530319F675DB004AA763 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530219F675DB004AA763 /* Foundation.framework */; };
 		8A9E530519F675DB004AA763 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530419F675DB004AA763 /* CoreGraphics.framework */; };
 		8A9E530719F675DB004AA763 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530619F675DB004AA763 /* UIKit.framework */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8A160C3719F749660030201A /* ListElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListElement.h; sourceTree = "<group>"; };
+		8A160C3819F749660030201A /* ListElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListElement.m; sourceTree = "<group>"; };
 		8A9E52FF19F675DB004AA763 /* CoreDataTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreDataTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9E530219F675DB004AA763 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8A9E530419F675DB004AA763 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -130,6 +133,8 @@
 				8A9E531D19F675DB004AA763 /* MasterViewController.m */,
 				8A9E531F19F675DB004AA763 /* DetailViewController.h */,
 				8A9E532019F675DB004AA763 /* DetailViewController.m */,
+				8A160C3719F749660030201A /* ListElement.h */,
+				8A160C3819F749660030201A /* ListElement.m */,
 				8A9E532219F675DB004AA763 /* Images.xcassets */,
 				8A9E531919F675DB004AA763 /* CoreDataTest.xcdatamodeld */,
 				8A9E530B19F675DB004AA763 /* Supporting Files */,
@@ -267,6 +272,7 @@
 				8A9E531E19F675DB004AA763 /* MasterViewController.m in Sources */,
 				8A9E531519F675DB004AA763 /* AppDelegate.m in Sources */,
 				8A9E531B19F675DB004AA763 /* CoreDataTest.xcdatamodeld in Sources */,
+				8A160C3919F749660030201A /* ListElement.m in Sources */,
 				8A9E531119F675DB004AA763 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +478,7 @@
 				8A9E533C19F675DC004AA763 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8A9E533D19F675DC004AA763 /* Build configuration list for PBXNativeTarget "CoreDataTestTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +487,7 @@
 				8A9E533F19F675DC004AA763 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

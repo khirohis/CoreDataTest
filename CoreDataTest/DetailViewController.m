@@ -7,10 +7,16 @@
 //
 
 #import "DetailViewController.h"
+#import "ListElement.h"
+
 
 @interface DetailViewController ()
+
 - (void)configureView;
+- (void)onDone:(id)sender;
+
 @end
+
 
 @implementation DetailViewController
 
@@ -20,32 +26,52 @@
 {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        
-        // Update the view.
+
         [self configureView];
     }
 }
 
-- (void)configureView
-{
-    // Update the user interface for the detail item.
-
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
-    }
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                           target:self
+                                                                                           action:@selector(onDone:)];
+
     [self configureView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+
+- (void)configureView
+{
+    if (self.detailItem) {
+        self.detailGroupTypeField.text = [self.detailItem.groupType stringValue];
+        self.detailDescriptionField.text = self.detailItem.elementDescription;
+    }
+}
+
+- (void)onDone:(id)sender
+{
+    self.detailItem.groupType = [NSNumber numberWithInt:[self.detailGroupTypeField.text intValue]];
+    self.detailItem.elementDescription = self.detailDescriptionField.text;
+
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 
 @end

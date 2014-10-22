@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8A160C3919F749660030201A /* ListElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A160C3819F749660030201A /* ListElement.m */; };
+		8A160C3C19F77DC20030201A /* CoreDataContextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A160C3B19F77DC20030201A /* CoreDataContextManager.m */; };
 		8A9E530319F675DB004AA763 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530219F675DB004AA763 /* Foundation.framework */; };
 		8A9E530519F675DB004AA763 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530419F675DB004AA763 /* CoreGraphics.framework */; };
 		8A9E530719F675DB004AA763 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530619F675DB004AA763 /* UIKit.framework */; };
@@ -41,6 +42,8 @@
 /* Begin PBXFileReference section */
 		8A160C3719F749660030201A /* ListElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListElement.h; sourceTree = "<group>"; };
 		8A160C3819F749660030201A /* ListElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListElement.m; sourceTree = "<group>"; };
+		8A160C3A19F77DC20030201A /* CoreDataContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataContextManager.h; sourceTree = "<group>"; };
+		8A160C3B19F77DC20030201A /* CoreDataContextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataContextManager.m; sourceTree = "<group>"; };
 		8A9E52FF19F675DB004AA763 /* CoreDataTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreDataTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9E530219F675DB004AA763 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8A9E530419F675DB004AA763 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -135,6 +138,8 @@
 				8A9E532019F675DB004AA763 /* DetailViewController.m */,
 				8A160C3719F749660030201A /* ListElement.h */,
 				8A160C3819F749660030201A /* ListElement.m */,
+				8A160C3A19F77DC20030201A /* CoreDataContextManager.h */,
+				8A160C3B19F77DC20030201A /* CoreDataContextManager.m */,
 				8A9E532219F675DB004AA763 /* Images.xcassets */,
 				8A9E531919F675DB004AA763 /* CoreDataTest.xcdatamodeld */,
 				8A9E530B19F675DB004AA763 /* Supporting Files */,
@@ -273,6 +278,7 @@
 				8A9E531519F675DB004AA763 /* AppDelegate.m in Sources */,
 				8A9E531B19F675DB004AA763 /* CoreDataTest.xcdatamodeld in Sources */,
 				8A160C3919F749660030201A /* ListElement.m in Sources */,
+				8A160C3C19F77DC20030201A /* CoreDataContextManager.m in Sources */,
 				8A9E531119F675DB004AA763 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +407,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreDataTest/CoreDataTest-Prefix.pch";
 				INFOPLIST_FILE = "CoreDataTest/CoreDataTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -414,6 +421,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreDataTest/CoreDataTest-Prefix.pch";
 				INFOPLIST_FILE = "CoreDataTest/CoreDataTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

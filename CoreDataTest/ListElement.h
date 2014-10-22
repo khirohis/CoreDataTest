@@ -10,7 +10,7 @@
 
 @interface ListElement : NSManagedObject
 
-@property (assign, nonatomic) NSNumber *groupType;
+@property (strong, nonatomic) NSNumber *groupType;
 @property (strong, nonatomic) NSString *elementDescription;
 
 @end

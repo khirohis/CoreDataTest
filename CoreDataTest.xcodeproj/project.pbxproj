@@ -27,6 +27,7 @@
 		8A9E532D19F675DC004AA763 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530819F675DB004AA763 /* CoreData.framework */; };
 		8A9E533519F675DC004AA763 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A9E533319F675DC004AA763 /* InfoPlist.strings */; };
 		8A9E533719F675DC004AA763 /* CoreDataTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9E533619F675DC004AA763 /* CoreDataTestTests.m */; };
+		A1D93C0519F7F5A2000216CC /* CoreDataSaveOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D93C0419F7F5A2000216CC /* CoreDataSaveOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		8A9E533219F675DC004AA763 /* CoreDataTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreDataTestTests-Info.plist"; sourceTree = "<group>"; };
 		8A9E533419F675DC004AA763 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A9E533619F675DC004AA763 /* CoreDataTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTestTests.m; sourceTree = "<group>"; };
+		A1D93C0319F7F5A2000216CC /* CoreDataSaveOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataSaveOperation.h; sourceTree = "<group>"; };
+		A1D93C0419F7F5A2000216CC /* CoreDataSaveOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataSaveOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +143,8 @@
 				8A160C3819F749660030201A /* ListElement.m */,
 				8A160C3A19F77DC20030201A /* CoreDataContextManager.h */,
 				8A160C3B19F77DC20030201A /* CoreDataContextManager.m */,
+				A1D93C0319F7F5A2000216CC /* CoreDataSaveOperation.h */,
+				A1D93C0419F7F5A2000216CC /* CoreDataSaveOperation.m */,
 				8A9E532219F675DB004AA763 /* Images.xcassets */,
 				8A9E531919F675DB004AA763 /* CoreDataTest.xcdatamodeld */,
 				8A9E530B19F675DB004AA763 /* Supporting Files */,
@@ -278,6 +283,7 @@
 				8A9E531519F675DB004AA763 /* AppDelegate.m in Sources */,
 				8A9E531B19F675DB004AA763 /* CoreDataTest.xcdatamodeld in Sources */,
 				8A160C3919F749660030201A /* ListElement.m in Sources */,
+				A1D93C0519F7F5A2000216CC /* CoreDataSaveOperation.m in Sources */,
 				8A160C3C19F77DC20030201A /* CoreDataContextManager.m in Sources */,
 				8A9E531119F675DB004AA763 /* main.m in Sources */,
 			);

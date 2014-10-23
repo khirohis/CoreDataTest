@@ -8,6 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+
+@protocol CoreDataSaveListener <NSObject>
+
+- (void)onSave:(id)sender;
+
+@end
+
+
 @interface CoreDataSaveOperation : NSOperation
+
+- (instancetype)initWithObjectID:(id)objectId
+                       groupType:(NSNumber *)groupType
+              elementDescription:(NSString *)elementDescription;
+
+@property (strong, nonatomic) id<CoreDataSaveListener> listener;
 
 @end

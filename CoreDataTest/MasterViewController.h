@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 
 #import <CoreData/CoreData.h>
+#import "CoreDataSaveOperation.h"
 
-@interface MasterViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@interface MasterViewController : UITableViewController <CoreDataSaveListener>
+
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+- (void)didChangeObjectID:objectId
+                groupType:groupType
+       elementDescription:elementDescription;
 
 @end

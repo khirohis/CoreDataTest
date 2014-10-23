@@ -17,6 +17,9 @@
 @property (strong, nonatomic) NSNumber *targetGroupType;
 @property (strong, nonatomic) NSString *targetElementDescription;
 
+- (void)managedContextDidSave:(NSNotification *)notification;
+- (void)sendOnSave;
+
 @end
 
 
@@ -42,6 +45,11 @@
     CoreDataContextManager *manager = [CoreDataContextManager sharedManager];
     NSManagedObjectContext *context = [manager managedObjectContext];
     if (context != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(managedContextDidSave:)
+                                                     name:NSManagedObjectContextDidSaveNotification
+                                                   object:context];
+
         NSManagedObject *object = [context objectWithID:self.targetObjectId];
         if (object != nil) {
             ListElement *element = (ListElement *)object;
@@ -56,5 +64,24 @@
         }
     }
 }
+
+
+- (void)managedContextDidSave:(NSNotification *)notification
+{
+    [self performSelectorOnMainThread:@selector(sendOnSave)
+                           withObject:nil
+                        waitUntilDone:NO];
+
+    CoreDataContextManager *manager = [CoreDataContextManager sharedManager];
+    [manager.mainManagedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:)
+                                                    withObject:notification
+                                                 waitUntilDone:YES];
+}
+
+- (void)sendOnSave
+{
+    [self.listener onSave:self];
+}
+
 
 @end

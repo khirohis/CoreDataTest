@@ -13,7 +13,9 @@
 
 + (instancetype)sharedManager;
 
+- (NSManagedObjectContext *)mainManagedObjectContext;
 - (NSManagedObjectContext *)managedObjectContext;
-- (void)saveContext;
+
+- (void)saveContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end

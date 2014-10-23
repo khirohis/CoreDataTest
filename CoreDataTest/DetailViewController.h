@@ -10,10 +10,11 @@
 
 
 @class ListElement;
+@class MasterViewController;
 
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) MasterViewController *masterViewController;
 @property (strong, nonatomic) ListElement *detailItem;
 
 @property (weak, nonatomic) IBOutlet UITextField *detailGroupTypeField;

@@ -9,9 +9,18 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "ListElement.h"
+#import "CoreDataSaveOperation.h"
 
 
 @interface MasterViewController ()
+
+@property (strong, nonatomic) NSArray *list;
+@property (strong, nonatomic) NSOperationQueue *operationQueue;
+
+- (NSArray *)fetchedResults;
+- (void)onSave:(id)sender;
+
+- (void)insertNewObject:(id)sender;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
@@ -35,6 +44,9 @@
                                                                                target:self
                                                                                action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
+
+    self.list = [self fetchedResults];
+    self.operationQueue = [[NSOperationQueue alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,20 +55,30 @@
 }
 
 
-- (void)insertNewObject:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    ListElement *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name]
-                                                                  inManagedObjectContext:context];
-    newManagedObject.groupType = [NSNumber numberWithInt:1];
-    newManagedObject.elementDescription = @"";
+    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        ListElement *object = [self.list objectAtIndex:indexPath.row];
 
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        DetailViewController *detailViewController = [segue destinationViewController];
+        detailViewController.masterViewController = self;
+        detailViewController.detailItem = object;
     }
+}
+
+
+- (void)didChangeObjectID:objectId
+                groupType:groupType
+       elementDescription:elementDescription
+{
+    CoreDataSaveOperation *operation = [[CoreDataSaveOperation alloc] initWithObjectID:objectId
+                                                                             groupType:groupType
+                                                                    elementDescription:elementDescription];
+    operation.listener = self;
+
+    [self.operationQueue addOperation:operation];
+    NSLog(@"complete addOperation");
 }
 
 
@@ -64,14 +86,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[self.fetchedResultsController sections] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-
-    return [sectionInfo numberOfObjects];
+    return [self.list count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -84,21 +104,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }   
+    return NO;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,112 +112,55 @@
     return NO;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        ListElement *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
 
-        DetailViewController *detailViewController = [segue destinationViewController];
-        detailViewController.managedObjectContext = self.fetchedResultsController.managedObjectContext;
-        detailViewController.detailItem = object;
-    }
+- (void)reloadList
+{
+    self.list = [self fetchedResults];
+    [self.tableView reloadData];
 }
 
-
-#pragma mark - Fetched results controller
-
-- (NSFetchedResultsController *)fetchedResultsController
+- (NSArray *)fetchedResults
 {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
+    NSArray *result = nil;
+
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListElement"
                                               inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    [fetchRequest setFetchBatchSize:20];
+    result = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
 
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"groupType"
-                                                                   ascending:YES];
-    NSArray *sortDescriptors = @[sortDescriptor];
-
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                                managedObjectContext:self.managedObjectContext
-                                                                                                  sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-
-    return _fetchedResultsController;
-}    
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView beginUpdates];
+    return result;
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex
-     forChangeType:(NSFetchedResultsChangeType)type
+- (void)onSave:(id)sender
 {
-    switch(type) {
+    [self reloadList];
+}
 
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
+
+- (void)insertNewObject:(id)sender
+{
+    NSManagedObjectContext *context = self.managedObjectContext;
+
+    ListElement *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"ListElement"
+                                                                  inManagedObjectContext:context];
+    newManagedObject.groupType = [NSNumber numberWithInt:1];
+    newManagedObject.elementDescription = @"none";
+
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
     }
-}
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath
-{
-    UITableView *tableView = self.tableView;
-
-    switch(type) {
-
-        case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-    }
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView endUpdates];
-//    [self.tableView reloadData];
+    [self reloadList];
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    ListElement *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    ListElement *object = [self.list objectAtIndex:indexPath.row];
     cell.textLabel.text = object.elementDescription;
 }
+
 
 @end

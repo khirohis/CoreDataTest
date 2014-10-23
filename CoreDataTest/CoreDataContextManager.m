@@ -13,9 +13,7 @@
 
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (strong, nonatomic) NSManagedObjectContext *mainManagedObjectContext;
 
-//- (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
 @end
@@ -25,7 +23,6 @@
 
 @dynamic managedObjectModel;
 @dynamic persistentStoreCoordinator;
-@dynamic mainManagedObjectContext;
 
 
 + (instancetype)sharedManager
@@ -41,10 +38,69 @@
 }
 
 
+- (NSManagedObjectModel *)managedObjectModel
+{
+    static NSManagedObjectModel *model = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"CoreDataTest"
+                                                  withExtension:@"momd"];
+        model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    });
+    
+    return model;
+}
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    static NSPersistentStoreCoordinator *coordinator = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CoreDataTest.sqlite"];
+        
+        NSError *error = nil;
+        coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
+        if (![coordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                       configuration:nil
+                                                 URL:storeURL
+                                             options:nil
+                                               error:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    });
+    
+    return coordinator;
+}
+
+- (NSManagedObjectContext *)mainManagedObjectContext
+{
+    static NSManagedObjectContext *context = nil;
+
+    if (context != nil) {
+        return context;
+    }
+
+    if (![NSThread isMainThread]) {
+        return nil;
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        context = [[NSManagedObjectContext alloc] init];
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator;
+    });
+    
+    return context;
+}
+
+
 - (NSManagedObjectContext *)managedObjectContext
 {
     if ([NSThread isMainThread]) {
-        return self.mainManagedObjectContext;
+        return [self mainManagedObjectContext];
     }
 
     NSManagedObjectContext *context = nil;
@@ -60,75 +116,19 @@
 }
 
 
-- (void)saveContext
+- (void)saveContext:(NSManagedObjectContext *)managedObjectContext
 {
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = [self mainManagedObjectContext];
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
-
-
-#pragma mark private methods
-
-- (NSManagedObjectModel *)managedObjectModel
-{
-    static NSManagedObjectModel *model = nil;
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"CoreDataTest"
-                                                  withExtension:@"momd"];
-        model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    });
-
-    return model;
-}
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    static NSPersistentStoreCoordinator *coordinator = nil;
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CoreDataTest.sqlite"];
-
+    if (managedObjectContext != nil && [managedObjectContext hasChanges]) {
         NSError *error = nil;
-        coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-        if (![coordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                       configuration:nil
-                                                 URL:storeURL
-                                             options:nil
-                                               error:&error]) {
+        if (![managedObjectContext save:&error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-    });
-
-    return coordinator;
-}
-
-- (NSManagedObjectContext *)mainManagedObjectContext
-{
-    if (![NSThread isMainThread]) {
-        return nil;
     }
-
-    static NSManagedObjectContext *context = nil;
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        context = [[NSManagedObjectContext alloc] init];
-        context.persistentStoreCoordinator = self.persistentStoreCoordinator;
-    });
-
-    return context;
 }
 
+
+#pragma mark - private methods
 
 - (NSURL *)applicationDocumentsDirectory
 {
@@ -136,5 +136,6 @@
                                                                   inDomains:NSUserDomainMask];
     return [directories lastObject];
 }
+
 
 @end

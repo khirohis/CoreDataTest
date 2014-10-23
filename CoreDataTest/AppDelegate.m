@@ -48,8 +48,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     CoreDataContextManager *contextManager = [CoreDataContextManager sharedManager];
-
-    [contextManager saveContext];
+    [contextManager saveContext:contextManager.managedObjectContext];
 }
 
 

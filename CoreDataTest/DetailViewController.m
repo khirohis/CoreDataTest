@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "MasterViewController.h"
 #import "ListElement.h"
 
 
@@ -19,8 +20,6 @@
 
 
 @implementation DetailViewController
-
-#pragma mark - Managing the detail item
 
 - (void)setDetailItem:(id)newDetailItem
 {
@@ -59,14 +58,11 @@
 
 - (void)onDone:(id)sender
 {
-    self.detailItem.groupType = [NSNumber numberWithInt:[self.detailGroupTypeField.text intValue]];
-    self.detailItem.elementDescription = self.detailDescriptionField.text;
-
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    NSNumber *groupType = [NSNumber numberWithInt:[self.detailGroupTypeField.text intValue]];
+    NSString *elementDescription = self.detailDescriptionField.text;
+    [self.masterViewController didChangeObjectID:self.detailItem.objectID
+                                       groupType:groupType
+                              elementDescription:elementDescription];
 
     [self.navigationController popViewControllerAnimated:YES];
 }

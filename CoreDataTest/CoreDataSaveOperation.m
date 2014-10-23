@@ -70,7 +70,7 @@
 {
     [self performSelectorOnMainThread:@selector(sendOnSave)
                            withObject:nil
-                        waitUntilDone:NO];
+                        waitUntilDone:YES];
 
     CoreDataContextManager *manager = [CoreDataContextManager sharedManager];
     [manager.mainManagedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:)

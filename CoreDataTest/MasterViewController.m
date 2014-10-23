@@ -17,8 +17,8 @@
 @property (strong, nonatomic) NSArray *list;
 @property (strong, nonatomic) NSOperationQueue *operationQueue;
 
+- (void)reloadList;
 - (NSArray *)fetchedResults;
-- (void)onSave:(id)sender;
 
 - (void)insertNewObject:(id)sender;
 
@@ -82,6 +82,13 @@
 }
 
 
+- (void)onSave:(id)sender
+{
+//    [self reloadList];
+    [self.tableView reloadData];
+}
+
+
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -127,14 +134,10 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListElement"
                                               inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    result = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    result = [self.managedObjectContext executeFetchRequest:fetchRequest
+                                                      error:nil];
 
     return result;
-}
-
-- (void)onSave:(id)sender
-{
-    [self reloadList];
 }
 
 

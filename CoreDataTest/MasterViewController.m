@@ -7,7 +7,6 @@
 //
 
 #import "MasterViewController.h"
-#import "DetailViewController.h"
 #import "ListElement.h"
 #import "CoreDataSaveOperation.h"
 
@@ -17,12 +16,13 @@
 @property (strong, nonatomic) NSArray *list;
 @property (strong, nonatomic) NSOperationQueue *operationQueue;
 
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+
+- (void)elementChange:(id)sender;
+
 - (void)reloadList;
 - (NSArray *)fetchedResults;
 
-- (void)insertNewObject:(id)sender;
-
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -38,14 +38,13 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                               target:self
-                                                                               action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                  target:self
+                                                                                  action:@selector(elementChange:)];
+    self.navigationItem.rightBarButtonItem = actionButton;
 
     self.list = [self fetchedResults];
+
     self.operationQueue = [[NSOperationQueue alloc] init];
 }
 
@@ -55,37 +54,17 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        ListElement *object = [self.list objectAtIndex:indexPath.row];
-
-        DetailViewController *detailViewController = [segue destinationViewController];
-        detailViewController.masterViewController = self;
-        detailViewController.detailItem = object;
-    }
-}
-
-
-- (void)didChangeObjectID:objectId
-                groupType:groupType
-       elementDescription:elementDescription
-{
-    CoreDataSaveOperation *operation = [[CoreDataSaveOperation alloc] initWithObjectID:objectId
-                                                                             groupType:groupType
-                                                                    elementDescription:elementDescription];
-    operation.listener = self;
-
-    [self.operationQueue addOperation:operation];
-    NSLog(@"complete addOperation");
-}
-
-
 - (void)onSave:(id)sender
 {
 //    [self reloadList];
     [self.tableView reloadData];
+}
+
+
+- (void)elementChange:(id)sender
+{
+    CoreDataSaveOperation *operation = [[CoreDataSaveOperation alloc] initWithListener:self];
+    [self.operationQueue addOperation:operation];
 }
 
 
@@ -119,6 +98,12 @@
     return NO;
 }
 
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    ListElement *object = [self.list objectAtIndex:indexPath.row];
+    cell.textLabel.text = object.elementDescription;
+}
+
 
 - (void)reloadList
 {
@@ -138,31 +123,6 @@
                                                       error:nil];
 
     return result;
-}
-
-
-- (void)insertNewObject:(id)sender
-{
-    NSManagedObjectContext *context = self.managedObjectContext;
-
-    ListElement *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"ListElement"
-                                                                  inManagedObjectContext:context];
-    newManagedObject.groupType = [NSNumber numberWithInt:1];
-    newManagedObject.elementDescription = @"none";
-
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-
-    [self reloadList];
-}
-
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    ListElement *object = [self.list objectAtIndex:indexPath.row];
-    cell.textLabel.text = object.elementDescription;
 }
 
 

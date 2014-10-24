@@ -16,8 +16,4 @@
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-- (void)didChangeObjectID:objectId
-                groupType:groupType
-       elementDescription:elementDescription;
-
 @end

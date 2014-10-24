@@ -19,7 +19,6 @@
 		8A9E531819F675DB004AA763 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A9E531619F675DB004AA763 /* Main.storyboard */; };
 		8A9E531B19F675DB004AA763 /* CoreDataTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8A9E531919F675DB004AA763 /* CoreDataTest.xcdatamodeld */; };
 		8A9E531E19F675DB004AA763 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9E531D19F675DB004AA763 /* MasterViewController.m */; };
-		8A9E532119F675DB004AA763 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9E532019F675DB004AA763 /* DetailViewController.m */; };
 		8A9E532319F675DB004AA763 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A9E532219F675DB004AA763 /* Images.xcassets */; };
 		8A9E532A19F675DC004AA763 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E532919F675DC004AA763 /* XCTest.framework */; };
 		8A9E532B19F675DC004AA763 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530219F675DB004AA763 /* Foundation.framework */; };
@@ -27,6 +26,8 @@
 		8A9E532D19F675DC004AA763 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9E530819F675DB004AA763 /* CoreData.framework */; };
 		8A9E533519F675DC004AA763 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A9E533319F675DC004AA763 /* InfoPlist.strings */; };
 		8A9E533719F675DC004AA763 /* CoreDataTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9E533619F675DC004AA763 /* CoreDataTestTests.m */; };
+		8AF980D419FA2D110004EC13 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF980D319FA2D110004EC13 /* List.m */; };
+		8AF980D719FA30010004EC13 /* ListOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF980D619FA30010004EC13 /* ListOwner.m */; };
 		A1D93C0519F7F5A2000216CC /* CoreDataSaveOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D93C0419F7F5A2000216CC /* CoreDataSaveOperation.m */; };
 /* End PBXBuildFile section */
 
@@ -60,14 +61,16 @@
 		8A9E531A19F675DB004AA763 /* CoreDataTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataTest.xcdatamodel; sourceTree = "<group>"; };
 		8A9E531C19F675DB004AA763 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		8A9E531D19F675DB004AA763 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		8A9E531F19F675DB004AA763 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		8A9E532019F675DB004AA763 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		8A9E532219F675DB004AA763 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8A9E532819F675DC004AA763 /* CoreDataTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9E532919F675DC004AA763 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		8A9E533219F675DC004AA763 /* CoreDataTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreDataTestTests-Info.plist"; sourceTree = "<group>"; };
 		8A9E533419F675DC004AA763 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A9E533619F675DC004AA763 /* CoreDataTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTestTests.m; sourceTree = "<group>"; };
+		8AF980D219FA2D110004EC13 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		8AF980D319FA2D110004EC13 /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
+		8AF980D519FA30010004EC13 /* ListOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOwner.h; sourceTree = "<group>"; };
+		8AF980D619FA30010004EC13 /* ListOwner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOwner.m; sourceTree = "<group>"; };
 		A1D93C0319F7F5A2000216CC /* CoreDataSaveOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataSaveOperation.h; sourceTree = "<group>"; };
 		A1D93C0419F7F5A2000216CC /* CoreDataSaveOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataSaveOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,10 +140,12 @@
 				8A9E531619F675DB004AA763 /* Main.storyboard */,
 				8A9E531C19F675DB004AA763 /* MasterViewController.h */,
 				8A9E531D19F675DB004AA763 /* MasterViewController.m */,
-				8A9E531F19F675DB004AA763 /* DetailViewController.h */,
-				8A9E532019F675DB004AA763 /* DetailViewController.m */,
 				8A160C3719F749660030201A /* ListElement.h */,
 				8A160C3819F749660030201A /* ListElement.m */,
+				8AF980D219FA2D110004EC13 /* List.h */,
+				8AF980D319FA2D110004EC13 /* List.m */,
+				8AF980D519FA30010004EC13 /* ListOwner.h */,
+				8AF980D619FA30010004EC13 /* ListOwner.m */,
 				8A160C3A19F77DC20030201A /* CoreDataContextManager.h */,
 				8A160C3B19F77DC20030201A /* CoreDataContextManager.m */,
 				A1D93C0319F7F5A2000216CC /* CoreDataSaveOperation.h */,
@@ -278,12 +283,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A9E532119F675DB004AA763 /* DetailViewController.m in Sources */,
 				8A9E531E19F675DB004AA763 /* MasterViewController.m in Sources */,
 				8A9E531519F675DB004AA763 /* AppDelegate.m in Sources */,
 				8A9E531B19F675DB004AA763 /* CoreDataTest.xcdatamodeld in Sources */,
+				8AF980D719FA30010004EC13 /* ListOwner.m in Sources */,
 				8A160C3919F749660030201A /* ListElement.m in Sources */,
 				A1D93C0519F7F5A2000216CC /* CoreDataSaveOperation.m in Sources */,
+				8AF980D419FA2D110004EC13 /* List.m in Sources */,
 				8A160C3C19F77DC20030201A /* CoreDataContextManager.m in Sources */,
 				8A9E531119F675DB004AA763 /* main.m in Sources */,
 			);

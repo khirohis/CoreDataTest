@@ -18,9 +18,7 @@
 
 @interface CoreDataSaveOperation : NSOperation
 
-- (instancetype)initWithObjectID:(id)objectId
-                       groupType:(NSNumber *)groupType
-              elementDescription:(NSString *)elementDescription;
+- (instancetype)initWithListener:(id<CoreDataSaveListener>)listener;
 
 @property (strong, nonatomic) id<CoreDataSaveListener> listener;
 

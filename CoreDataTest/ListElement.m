@@ -10,7 +10,12 @@
 
 @implementation ListElement
 
+@dynamic elementId;
+@dynamic index;
 @dynamic groupType;
 @dynamic elementDescription;
+
+@dynamic list;
+@dynamic listOwner;
 
 @end

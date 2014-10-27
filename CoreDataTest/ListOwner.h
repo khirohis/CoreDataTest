@@ -12,12 +12,24 @@
 @class List;
 @class ListElement;
 
-@interface ListOwner : NSObject
+@interface ListOwner : NSManagedObject
 
 @property (strong, nonatomic) NSNumber *groupType;
+
 @property (strong, nonatomic) ListElement *listElement;
 @property (strong, nonatomic) NSSet *lists;
 
+- (NSArray *)sortedListsArray;
 - (List *)firstList;
+
+@end
+
+
+@interface ListOwner (CoreDataGeneratedAccessors)
+
+- (void)addListsObject:(List *)value;
+- (void)removeListsObject:(List *)value;
+- (void)addLists:(NSSet *)values;
+- (void)removeLists:(NSSet *)values;
 
 @end

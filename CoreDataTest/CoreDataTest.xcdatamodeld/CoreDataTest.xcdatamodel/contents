@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="List" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="List" representedClassName="List" syncable="YES">
         <attribute name="groupType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="listElements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ListElement" inverseName="list" inverseEntity="ListElement" syncable="YES"/>
         <relationship name="listOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListOwner" inverseName="lists" inverseEntity="ListOwner" syncable="YES"/>
     </entity>
-    <entity name="ListElement" syncable="YES">
+    <entity name="ListElement" representedClassName="ListElement" syncable="YES">
         <attribute name="elementDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="elementId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="groupType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -14,15 +14,15 @@
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="List" inverseName="listElements" inverseEntity="List" syncable="YES"/>
         <relationship name="listOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListOwner" inverseName="listElement" inverseEntity="ListOwner" syncable="YES"/>
     </entity>
-    <entity name="ListOwner" syncable="YES">
+    <entity name="ListOwner" representedClassName="ListOwner" syncable="YES">
         <attribute name="groupType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="listElement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListElement" inverseName="listOwner" inverseEntity="ListElement" syncable="YES"/>
         <relationship name="lists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="listOwner" inverseEntity="List" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ListElement" positionX="34" positionY="-405" width="128" height="133"/>
-        <element name="List" positionX="36" positionY="-387" width="128" height="103"/>
-        <element name="ListOwner" positionX="36" positionY="-360" width="128" height="103"/>
+        <element name="List" positionX="-434" positionY="-697" width="128" height="103"/>
+        <element name="ListElement" positionX="-119" positionY="-511" width="128" height="133"/>
+        <element name="ListOwner" positionX="-794" positionY="-612" width="128" height="103"/>
     </elements>
 </model>

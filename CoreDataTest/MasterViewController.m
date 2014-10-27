@@ -8,12 +8,14 @@
 
 #import "MasterViewController.h"
 #import "ListElement.h"
+#import "List.h"
+#import "ListOwner.h"
 #import "CoreDataSaveOperation.h"
 
 
 @interface MasterViewController ()
 
-@property (strong, nonatomic) NSArray *list;
+@property (strong, nonatomic) ListOwner *listOwner;
 @property (strong, nonatomic) NSOperationQueue *operationQueue;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -21,7 +23,9 @@
 - (void)elementChange:(id)sender;
 
 - (void)reloadList;
-- (NSArray *)fetchedResults;
+
+- (ListOwner *)fetchListOwner:(NSManagedObjectContext *)context
+                    groupType:(NSNumber *)groupType;
 
 
 @end
@@ -43,7 +47,9 @@
                                                                                   action:@selector(elementChange:)];
     self.navigationItem.rightBarButtonItem = actionButton;
 
-    self.list = [self fetchedResults];
+    NSNumber *groupType = [NSNumber numberWithInt:1];
+    self.listOwner = [self fetchListOwner:self.managedObjectContext
+                                groupType:groupType];
 
     self.operationQueue = [[NSOperationQueue alloc] init];
 }
@@ -77,12 +83,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.list count];
+    if (self.listOwner != nil) {
+        NSEntityDescription *entity = self.listOwner.entity;
+        NSLog(@"entity name: %@", entity.name);
+
+        List *list = [self.listOwner firstList];
+        if (list != nil) {
+            return list.listElements.count;
+        }
+    }
+
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+                                                            forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
 
     return cell;
@@ -100,29 +117,43 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    ListElement *object = [self.list objectAtIndex:indexPath.row];
+    List *list = [self.listOwner firstList];
+    NSArray *elements = [list sortedListElementsArray];
+    ListElement *object = [elements objectAtIndex:indexPath.row];
     cell.textLabel.text = object.elementDescription;
 }
 
 
 - (void)reloadList
 {
-    self.list = [self fetchedResults];
+    NSNumber *groupType = [NSNumber numberWithInt:1];
+    self.listOwner = [self fetchListOwner:self.managedObjectContext
+                 groupType:groupType];
+
     [self.tableView reloadData];
 }
 
-- (NSArray *)fetchedResults
+- (ListOwner *)fetchListOwner:(NSManagedObjectContext *)context
+                    groupType:(NSNumber *)groupType;
 {
-    NSArray *result = nil;
-
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ListElement"
-                                              inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    result = [self.managedObjectContext executeFetchRequest:fetchRequest
-                                                      error:nil];
 
-    return result;
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([ListOwner class])
+                                                         inManagedObjectContext:context];
+    [fetchRequest setEntity:entityDescription];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"groupType = %d", 1];
+    [fetchRequest setPredicate:predicate];
+
+    NSError *error;
+    NSArray *result = [context executeFetchRequest:fetchRequest
+                                             error:&error];
+
+    if (result != nil && result.count > 0) {
+        return result.lastObject;
+    }
+
+    return nil;
 }
 
 

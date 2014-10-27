@@ -11,21 +11,32 @@
 @implementation ListOwner
 
 @dynamic groupType;
+
 @dynamic listElement;
 @dynamic lists;
 
 
-- (List *)firstList
+- (NSArray *)sortedListsArray
 {
+    NSArray *result = nil;
+
     NSUInteger count = self.lists.count;
     if (count == 1) {
-        return [self.lists anyObject];
+        result = [NSArray arrayWithObject:self.lists.anyObject];
     } else if (count > 1) {
         NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index"
                                                                    ascending:YES];
-        NSArray *array = [self.lists sortedArrayUsingDescriptors:@[descriptor]];
+        result = [self.lists sortedArrayUsingDescriptors:@[descriptor]];
+    }
 
-        return [array objectAtIndex:0];
+    return result;
+}
+
+- (List *)firstList
+{
+    NSArray *sortedList = [self sortedListsArray];
+    if (sortedList != nil) {
+        return [sortedList objectAtIndex:0];
     }
 
     return nil;

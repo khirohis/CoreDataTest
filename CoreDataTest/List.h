@@ -9,14 +9,27 @@
 #import <Foundation/Foundation.h>
 
 
+@class ListElement;
 @class ListOwner;
 
-@interface List : NSObject
+@interface List : NSManagedObject
 
 @property (strong, nonatomic) NSNumber *index;
 @property (strong, nonatomic) NSNumber *groupType;
 
 @property (strong, nonatomic) ListOwner *listOwner;
 @property (strong, nonatomic) NSSet *listElements;
+
+- (NSArray *)sortedListElementsArray;
+
+@end
+
+
+@interface List (CoreDataGeneratedAccessors)
+
+- (void)addListElementsObject:(ListElement *)value;
+- (void)removeListElementsObject:(ListElement *)value;
+- (void)addListElements:(NSSet *)values;
+- (void)removeListElements:(NSSet *)values;
 
 @end

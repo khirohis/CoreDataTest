@@ -12,7 +12,25 @@
 
 @dynamic index;
 @dynamic groupType;
+
 @dynamic listOwner;
 @dynamic listElements;
+
+
+- (NSArray *)sortedListElementsArray
+{
+    NSArray *result = nil;
+
+    NSUInteger count = self.listElements.count;
+    if (count == 0) {
+        result = [NSArray arrayWithObject:self.listElements.anyObject];
+    } else if (count > 1) {
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"index"
+                                                                   ascending:YES];
+        result = [self.listElements sortedArrayUsingDescriptors:@[descriptor]];
+    }
+
+    return result;
+}
 
 @end

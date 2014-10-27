@@ -87,12 +87,12 @@
                                       groupType:groupType];
 
     if (listOwner == nil) {
-        listOwner = [NSEntityDescription insertNewObjectForEntityForName:@"ListOwner"
+        listOwner = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([ListOwner class])
                                                   inManagedObjectContext:context];
-        list = [NSEntityDescription insertNewObjectForEntityForName:@"List"
+        list = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([List class])
                                              inManagedObjectContext:context];
         listOwner.groupType = groupType;
-        [listOwner.lists addObject:list];
+        [listOwner addListsObject:list];
     } else {
         list = [listOwner firstList];
     }
@@ -116,11 +116,13 @@
         }
 
         if (!found) {
-            [self insertElementForContext:context
-                                elementId:elementId
-                                    index:[NSNumber numberWithInt:currentIndex]
-                                groupType:groupType
-                       elementDescription:elementDescription];
+            ListElement *element = [self insertElementForContext:context
+                                                       elementId:elementId
+                                                           index:[NSNumber numberWithInt:currentIndex]
+                                                       groupType:groupType
+                                              elementDescription:elementDescription];
+
+            [list addListElementsObject:element];
         }
 
         currentIndex++;
@@ -153,7 +155,7 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ListOwner"
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:NSStringFromClass([ListOwner class])
                                                          inManagedObjectContext:context];
     [fetchRequest setEntity:entityDescription];
 
@@ -177,7 +179,7 @@
                                groupType:(NSNumber *)groupType
                       elementDescription:(NSString *)elementDescription
 {
-    ListElement *element = [NSEntityDescription insertNewObjectForEntityForName:@"ListElement"
+    ListElement *element = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([ListElement class])
                                                                   inManagedObjectContext:context];
     element.elementId = elementId;
     element.index = index;
